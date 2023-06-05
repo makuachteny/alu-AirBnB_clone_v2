@@ -42,6 +42,14 @@ class FileStorage:
         from models.amenity import Amenity
         from models.review import Review
 
+    def delete(self, obj=None):
+        """Deletes specified object from storage dictionary"""
+        if obj is None:
+            return
+        key = obj.__class__.__name__ + '.' + obj.id
+        if key in self.all():
+            del self.__objects[key]
+
         classes = {
             'BaseModel': BaseModel, 'User': User, 'Place': Place,
             'State': State, 'City': City, 'Amenity': Amenity,
@@ -55,11 +63,3 @@ class FileStorage:
                     self.all()[key] = classes[val['__class__']](**val)
         except FileNotFoundError:
             pass
-
-
-def delete(self, obj=None):
-    """Method that deletes obj from __objects"""
-    if obj is not None:
-        # get the key for this obj class name.id
-        key = obj.__class__.__name__ + '.' + obj.id
-        del self.__objects[key]
