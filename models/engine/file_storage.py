@@ -10,10 +10,14 @@ class FileStorage:
 
     def all(self, cls=None):
         """Returns a list of objects of a specific class from storage"""
-        if cls is None:
-            return list(FileStorage.__objects.values())
-        else:
-            return [obj for obj in FileStorage.__objects.values() if isinstance(obj, cls)]
+        if cls is not None:
+            new_obj_dict = {}
+            for key, value in self.__objects.items():
+                if isinstance(value, cls):
+                    new_obj_dict[key] = value
+            return new_obj_dict
+
+        return FileStorage.__objects
 
     def new(self, obj):
         """Adds new object to storage dictionary"""
@@ -39,11 +43,10 @@ class FileStorage:
         from models.review import Review
 
     def delete(self, obj=None):
-        """Deletes specified object from storage dictionary"""
-        if obj is None:
-            return
-        key = obj.__class__.__name__ + '.' + obj.id
-        if key in self.all():
+        """Method that deletes obj from __objects"""
+        if obj is not None:
+            # get the key for this obj class name.id
+            key = obj.__class__.__name__ + '.' + obj.id
             del self.__objects[key]
 
         classes = {
