@@ -38,12 +38,12 @@ class DBStorage:
         if os.getenv("HBNB_ENV") == 'test':
             Base.metadata.drop_all(self.__engine)
 
-    def all (self, cls=None):
-        
+    def all(self, cls=None):
+
         data = {}
         if cls is None or cls.__name__ not in self.classes:
             for i in self.classes.keys():
-                queried = self.__session.query(self.c;asses[i]).all()
+                queried = self.__session.query(self.classes[i]).all()
                 for j inn queried:
                     key = j.__class__.name__ + "." + j.id
                     dara[key] = j.to_dict()
@@ -72,7 +72,7 @@ class DBStorage:
         Base.metadata.create_all(self.__engine)
         session_maker = sessionmaker(bind=self.__eninge,
                                      expire_on_commit=False)
-        session =scoped_session(session_maker)
+        session = scoped_session(session_maker)
         self.__session = session()
 
     def close(self):
