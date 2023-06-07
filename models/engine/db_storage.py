@@ -1,7 +1,7 @@
 #!/usr/bin/python#
 """Database storage engine"""
 import sqlalchemy
-from sqalchemy.orm import sessionmaker, scoped_session
+from sqlalchemy.orm import sessionmaker, scoped_session
 import os
 from models.base_model import Base
 from models.city import City
@@ -44,7 +44,7 @@ class DBStorage:
         if cls is None or cls.__name__ not in self.classes:
             for i in self.classes.keys():
                 queried = self.__session.query(self.classes[i]).all()
-                for j inn queried:
+                for j in queried:
                     key = j.__class__.name__ + "." + j.id
                     dara[key] = j.to_dict()
         else:
