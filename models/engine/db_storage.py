@@ -1,5 +1,5 @@
 #!/usr/bin/python#
-"""db_storage"""
+"""Database storage engine"""
 import sqlalchemy
 from sqalchemy.orm import sessionmaker, scoped_session
 import os
