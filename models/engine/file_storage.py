@@ -42,6 +42,24 @@ class FileStorage:
         from models.amenity import Amenity
         from models.review import Review
 
+        classes = {
+                    'BaseModel': BaseModel,
+                    'User': User,
+                    'Place': Place,
+                    'State': State,
+                    'City': City,
+                    'Amenity': Amenity,
+                    'Review': Review
+                }
+        try:
+            temp = {}
+            with open(FileStorage.__file_path, 'r') as f:
+                temp = json.load(f)
+                for key, val in temp.items():
+                    self.all()[key] = classes[val['__class__']](**val)
+        except FileNotFoundError:
+            pass
+
     def delete(self, obj=None):
         """Deletes specified object from storage dictionary"""
         if obj is None:
@@ -63,3 +81,7 @@ class FileStorage:
                     self.all()[key] = classes[val['__class__']](**val)
         except FileNotFoundError:
             pass
+
+    def close(self):
+        """reload"""
+        self.reload()
