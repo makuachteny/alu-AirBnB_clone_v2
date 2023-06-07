@@ -16,9 +16,8 @@ console = HBNBCommand()
 
 class ConsoleTestCase(unittest.TestCase):
 
-
     def test_create(self):
-        if os.getenv("HBNB_TYPE_STORAGE")  != "db":
+        if os.getenv("HBNB_TYPE_STORAGE") != "db":
             with patch('sys.stdout', stdout):
                 console.onecmd('create State name="california"')
             self.assertEqual(len(stdout.getvalue()), 37)
