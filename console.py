@@ -28,6 +28,7 @@ def is_number(s):
 
     return False
 
+
 class HBNBCommand(cmd.Cmd):
     """ Contains the functionality for the HBNB console"""
 
@@ -163,7 +164,7 @@ class HBNBCommand(cmd.Cmd):
                         dt[1] = int(dt[1])
 
                 obj[dt[0]] = dt[1]
-                
+
         from . import storage
         new_instance = HBNBCommand.classes[args.split(" ")[0]]()
 
