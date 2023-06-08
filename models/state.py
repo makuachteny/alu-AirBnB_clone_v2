@@ -8,8 +8,10 @@ from os import getenv
 import models
 from models.city import City
 
+storage = getenv("HBNB_TYPE_STORAGE")
 
-class State(BaseModel):
+
+class State(BaseModel, Base):
     """ State class """
     __tablename__ = 'states'
     name = column(String(128), nullable=False)
@@ -18,6 +20,8 @@ class State(BaseModel):
         cities = relationship('City', backref='state',
                               cascade='all, delete-orphan')
     else:
+        name = ""
+    if storage != 'db':
         @property
         def cities(self):
             """Getter attribute in case of file storage"""
