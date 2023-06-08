@@ -163,6 +163,8 @@ class HBNBCommand(cmd.Cmd):
                         dt[1] = int(dt[1])
 
                 obj[dt[0]] = dt[1]
+                
+        from . import storage
         new_instance = HBNBCommand.classes[args.split(" ")[0]]()
 
         new_instance.__dict__.update(**obj)
