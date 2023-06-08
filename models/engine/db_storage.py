@@ -16,12 +16,12 @@ class DBStorage:
     __engine = None
     __session = None
     classes = {
-            'City': City,
-            'State': State,
-            'Place': Place,
-            'User': User,
-            'Review': Review,
-            'Amenity': Amenity,
+        'City': City,
+        'State': State,
+        'Place': Place,
+        'User': User,
+        'Review': Review,
+        'Amenity': Amenity,
     }
 
     def __init__(self):
@@ -44,7 +44,7 @@ class DBStorage:
         if cls is None or cls.__name__ not in self.classes:
             for i in self.classes.keys():
                 queried = self.__session.query(self.classes[i]).all()
-                for j inn queried:
+                for j in queried:
                     key = j.__class__.name__ + "." + j.id
                     dara[key] = j.to_dict()
         else:
