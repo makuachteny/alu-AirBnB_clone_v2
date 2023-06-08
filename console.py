@@ -130,6 +130,7 @@ class HBNBCommand(cmd.Cmd):
         pass
 
     def do_create(self, args):
+        from models import storage
         obj = {}
         """ Create an object of any class"""
         if not args:
@@ -175,6 +176,7 @@ class HBNBCommand(cmd.Cmd):
         print("[Usage]: create <className>\n")
 
     def do_show(self, args):
+        from models import storage
         """ Method to show an individual object """
         new = args.partition(" ")
         c_name = new[0]
@@ -208,6 +210,7 @@ class HBNBCommand(cmd.Cmd):
         print("[Usage]: show <className> <objectId>\n")
 
     def do_destroy(self, args):
+        from models import storage
         """ Destroys a specified object """
         new = args.partition(" ")
         c_name = new[0]
@@ -241,6 +244,7 @@ class HBNBCommand(cmd.Cmd):
         print("[Usage]: destroy <className> <objectId>\n")
 
     def do_all(self, args):
+        from models import storage
         """ Shows all objects, or all objects of a class"""
         print_list = []
 
@@ -264,6 +268,7 @@ class HBNBCommand(cmd.Cmd):
         print("[Usage]: all <className>\n")
 
     def do_count(self, args):
+        from models import storage
         """Count current number of class instances"""
         count = 0
         for k, v in storage._FileStorage__objects.items():
@@ -276,6 +281,7 @@ class HBNBCommand(cmd.Cmd):
         print("Usage: count <class_name>")
 
     def do_update(self, args):
+        from models import storage
         """ Updates a certain object with new info """
         c_name = c_id = att_name = att_val = kwargs = ''
 
