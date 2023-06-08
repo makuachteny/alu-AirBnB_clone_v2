@@ -16,12 +16,12 @@ class DBStorage:
     __engine = None
     __session = None
     classes = {
-            'City': City,
-            'State': State,
-            'Place': Place,
-            'User': User,
-            'Review': Review,
-            'Amenity': Amenity,
+        'City': City,
+        'State': State,
+        'Place': Place,
+        'User': User,
+        'Review': Review,
+        'Amenity': Amenity,
     }
 
     def __init__(self):
