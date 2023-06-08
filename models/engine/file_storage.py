@@ -10,14 +10,10 @@ class FileStorage:
 
     def all(self, cls=None):
         """Returns a list of objects of a specific class from storage"""
-        if cls is not None:
-            new_obj_dict = {}
-            for key, value in self.__objects.items():
-                if isinstance(value, cls):
-                    new_obj_dict[key] = value
-            return new_obj_dict
-
-        return FileStorage.__objects
+        if cls is None:
+            return list(FileStorage.__objects.values())
+        else:
+            return [obj for obj in FileStorage.__objects.values() if isinstance(obj, cls)]
 
     def new(self, obj):
         """Adds new object to storage dictionary"""
@@ -42,24 +38,6 @@ class FileStorage:
         from models.amenity import Amenity
         from models.review import Review
 
-        classes = {
-                    'BaseModel': BaseModel,
-                    'User': User,
-                    'Place': Place,
-                    'State': State,
-                    'City': City,
-                    'Amenity': Amenity,
-                    'Review': Review
-                }
-        try:
-            temp = {}
-            with open(FileStorage.__file_path, 'r') as f:
-                temp = json.load(f)
-                for key, val in temp.items():
-                    self.all()[key] = classes[val['__class__']](**val)
-        except FileNotFoundError:
-            pass
-
     def delete(self, obj=None):
         """Deletes specified object from storage dictionary"""
         if obj is None:
@@ -81,7 +59,3 @@ class FileStorage:
                     self.all()[key] = classes[val['__class__']](**val)
         except FileNotFoundError:
             pass
-
-    def close(self):
-        """reload"""
-        self.reload()
