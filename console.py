@@ -137,9 +137,11 @@ class HBNBCommand(cmd.Cmd):
         if not args:
             print("** class name missing **")
             return
-        elif args.split(" ")[0] not in HBNBCommand.classes:
-            print("** class doesn't exist **")
-            return
+        # Convert class name to lowercase
+        class_name = args.split(" ")[0].lower()
+    if class_name not in HBNBCommand.classes:
+        print("** class doesn't exist **")
+        return
         params = args.split(" ")[1:]
         for i in params:
             dt = i.split("=")
