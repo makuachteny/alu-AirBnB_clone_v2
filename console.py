@@ -2,14 +2,31 @@
 """ Console Module """
 import cmd
 import sys
+import models
 from models.base_model import BaseModel
-from models import storage
-from models import User
-from models import Place
-from models import State
-from models import City
-from models import Amenity
-from models import Review
+from models.__init__ import storage
+from models.user import User
+from models.place import Place
+from models.state import State
+from models.city import City
+from models.amenity import Amenity
+from models.review import Review
+
+
+def is_number(s):
+    try:
+        int(s)
+        return True
+    except ValueError:
+        pass
+
+    try:
+        float(s)
+        return True
+    except ValueError:
+        pass
+
+    return False
 
 
 class HBNBCommand(cmd.Cmd):
@@ -73,8 +90,8 @@ class HBNBCommand(cmd.Cmd):
                 pline = pline[2].strip()  # pline is now str
                 if pline:
                     # check for *args or **kwargs
-                    if pline[0] is '{' and pline[-1] is '}'\
-                            and type(eval(pline)) is dict:
+                    if pline[0] == '{' and pline[-1] == '}'\
+                            and type(eval(pline)) == dict:
                         _args = pline
                     else:
                         _args = pline.replace(',', '')
@@ -93,7 +110,7 @@ class HBNBCommand(cmd.Cmd):
         return stop
 
     def do_quit(self, command):
-        """ Method to exit"""
+        """ Method to exit the HBNB console"""
         exit()
 
     def help_quit(self):
@@ -114,15 +131,45 @@ class HBNBCommand(cmd.Cmd):
         pass
 
     def do_create(self, args):
+        from models import storage
+        obj = {}
         """ Create an object of any class"""
         if not args:
             print("** class name missing **")
             return
-        elif args not in HBNBCommand.classes:
+        elif args.split(" ")[0] not in HBNBCommand.classes:
             print("** class doesn't exist **")
             return
-        new_instance = HBNBCommand.classes[args]()
-        storage.save()
+        params = args.split(" ")[1:]
+        for i in params:
+            dt = i.split("=")
+            if len(dt) != 2:
+                continue
+            if ((dt[1][0] != '"' or dt[1][-1] != '"')
+                    and not is_number(dt[1].replace('"', ''))):
+                continue
+            if ((dt[1][0] == '"' or dt[1][-1] == '"')
+                    and is_number(dt[1].replace('"', ''))):
+                continue
+            else:
+                dt[1] = dt[1].replace('"', '')
+                dt[1] = dt[1].split("_")
+                if isinstance(dt[1], list):
+                    dt[1] = " ".join(dt[1])
+                if (is_number(dt[1])):
+                    print(dt[1])
+                    if '.' in dt[1]:
+                        dt[1] = float(dt[1])
+                    else:
+                        dt[1] = int(dt[1])
+
+                obj[dt[0]] = dt[1]
+
+        from . import storage
+        new_instance = HBNBCommand.classes[args.split(" ")[0]]()
+
+        new_instance.__dict__.update(**obj)
+        storage.new(new_instance)
         print(new_instance.id)
         storage.save()
 
@@ -132,6 +179,7 @@ class HBNBCommand(cmd.Cmd):
         print("[Usage]: create <className>\n")
 
     def do_show(self, args):
+        from models import storage
         """ Method to show an individual object """
         new = args.partition(" ")
         c_name = new[0]
@@ -165,6 +213,7 @@ class HBNBCommand(cmd.Cmd):
         print("[Usage]: show <className> <objectId>\n")
 
     def do_destroy(self, args):
+        from models import storage
         """ Destroys a specified object """
         new = args.partition(" ")
         c_name = new[0]
@@ -198,6 +247,7 @@ class HBNBCommand(cmd.Cmd):
         print("[Usage]: destroy <className> <objectId>\n")
 
     def do_all(self, args):
+        from models import storage
         """ Shows all objects, or all objects of a class"""
         print_list = []
 
@@ -221,6 +271,7 @@ class HBNBCommand(cmd.Cmd):
         print("[Usage]: all <className>\n")
 
     def do_count(self, args):
+        from models import storage
         """Count current number of class instances"""
         count = 0
         for k, v in storage._FileStorage__objects.items():
@@ -233,6 +284,7 @@ class HBNBCommand(cmd.Cmd):
         print("Usage: count <class_name>")
 
     def do_update(self, args):
+        from models import storage
         """ Updates a certain object with new info """
         c_name = c_id = att_name = att_val = kwargs = ''
 
@@ -264,7 +316,7 @@ class HBNBCommand(cmd.Cmd):
             return
 
         # first determine if kwargs or args
-        if '{' in args[2] and '}' in args[2] and type(eval(args[2])) is dict:
+        if '{' in args[2] and '}' in args[2] and type(eval(args[2])) == dict:
             kwargs = eval(args[2])
             args = []  # reformat kwargs into list, ex: [<name>, <value>, ...]
             for k, v in kwargs.items():
@@ -272,7 +324,7 @@ class HBNBCommand(cmd.Cmd):
                 args.append(v)
         else:  # isolate args
             args = args[2]
-            if args and args[0] is '\"':  # check for quoted arg
+            if args and args[0] == '\"':  # check for quoted arg
                 second_quote = args.find('\"', 1)
                 att_name = args[1:second_quote]
                 args = args[second_quote + 1:]
@@ -283,7 +335,7 @@ class HBNBCommand(cmd.Cmd):
             if not att_name and args[0] != ' ':
                 att_name = args[0]
             # check for quoted val arg
-            if args[2] and args[2][0] is '\"':
+            if args[2] and args[2][0] == '\"':
                 att_val = args[2][1:args[2].find('\"', 1)]
 
             # if att_val was not quoted arg
