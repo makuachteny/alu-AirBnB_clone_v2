@@ -11,7 +11,7 @@ class TestDBStorage(unittest.TestCase):
 
     def test_state(self):
         """test state table"""
-        State = State(name="test")
-        State.save()
-        self.assertTrue("State.{}".format(State.id) in storage.all())
-        self.assertEqual(State.name, "test")
+        state = State(name="test")
+        state.save()
+        self.assertTrue("State.{}".format(state.id) in storage.all())
+        self.assertEqual(state.name, "test")
