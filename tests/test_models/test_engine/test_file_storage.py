@@ -38,7 +38,7 @@ class test_fileStorage(unittest.TestCase):
         temp = None
         for obj in storage.all().values():
             temp = obj
-        self.assertGreater(len(storage.all().values()), old_size)
+        self.assertGreater(len(storage.all().values()),  old_size)
 
     @unittest.skipIf(os.getenv("HBNB_TYPE_STORAGE"), 'db')
     def test_all(self):
