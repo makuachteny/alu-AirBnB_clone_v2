@@ -14,4 +14,4 @@ class TestDBStorage(unittest.TestCase):
         state = State(name="test")
         state.save()
         self.assertTrue("State.{}".format(state.id) in storage.all())
-        self.assertEqual(state.name, "test")
+        self.assertEqual(State.name, "test")
