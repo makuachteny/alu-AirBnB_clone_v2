@@ -56,10 +56,10 @@ class FileStorage:
             pass
 
     def delete(self, obj=None):
-            """delete a single instance"""
-            if obj is None:
-                return
-            del self.all()[obj.to_dict()['__class__'] + '.' + obj.id]
+        """delete a single instance"""
+        if obj is None:
+            return
+        del self.all()[obj.to_dict()['__class__'] + '.' + obj.id]
 
     def close(self):
         """reload"""
