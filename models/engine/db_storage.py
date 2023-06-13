@@ -46,7 +46,7 @@ class DBStorage:
                 queried = self.__session.query(self.classes[i]).all()
                 for j in queried:
                     key = j.__class__.name__ + "." + j.id
-                    dara[key] = j.to_dict()
+                    data[key] = j.to_dict()
         else:
             queried = self.__session.query(cls).all()
             for j in queried:
@@ -60,7 +60,7 @@ class DBStorage:
 
     def save(self):
         """commit to database"""
-        self.session.commit()
+        self.__session.commit()
 
     def delete(self, obj=None):
         """delete an object"""
@@ -70,7 +70,7 @@ class DBStorage:
     def reload(self):
         """reload database"""
         Base.metadata.create_all(self.__engine)
-        session_maker = sessionmaker(bind=self.__eninge,
+        session_maker = sessionmaker(bind=self.__engine,
                                      expire_on_commit=False)
         session = scoped_session(session_maker)
         self.__session = session()
