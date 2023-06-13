@@ -7,11 +7,11 @@ import os
 
 @unittest.skipIf(os.getenv('HBNB_TYPE_STORAGE') != 'db', "skip when the storage is not db")
 class TestDBStorage(unittest.TestCase):
-        """db storage tests"""
+    """db storage tests"""
 
-        def test_state(self):
-            """ test state table"""
-            state = State(name="test")
-            state.save()
-            self.assertTrue("State.{}".format(state.id) in storage.all())
-            self.assertEqual(state.name, "test")
+    def test_state(self):
+        """test state table"""
+        state = State(name="test")
+        state.save()
+        self.assertTrue("State.{}".format(state.id) in storage.all())
+        self.assertEqual(state.name, "test")
