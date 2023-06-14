@@ -46,16 +46,16 @@ class Place(BaseModel, Base):
                 filter(lambda amenity: (amenity.place_id in self.amenity_ids),
                        amenities))
 
-        # @amenities.setter
-        # def amenities(self, value=None):
-        #     """add amenity id"""
-        #     if type(value) == type(Amenity):
-        #         self.amenity_ids.append(value.id)
-
         @amenities.setter
         def amenities(self, value=None):
-            """add amenity id or list of amenities"""
-            if isinstance(value, list):
-                self.amenity_ids.extend([amenity.id for amenity in value])
-            elif isinstance(value, Amenity):
+            """add amenity id"""
+            if type(value) == type(Amenity):
                 self.amenity_ids.append(value.id)
+
+        # @amenities.setter
+        # def amenities(self, value=None):
+        #     """add amenity id or list of amenities"""
+        #     if isinstance(value, list):
+        #         self.amenity_ids.extend([amenity.id for amenity in value])
+        #     elif isinstance(value, Amenity):
+        #         self.amenity_ids.append(value.id)
