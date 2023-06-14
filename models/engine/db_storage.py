@@ -3,7 +3,8 @@
 import sqlalchemy
 from sqlalchemy.orm import sessionmaker, scoped_session
 import os
-from .base_model import Base
+import models
+from models.base_model import Base
 from models.city import City
 from models.state import State
 from models.place import Place
