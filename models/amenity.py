@@ -6,6 +6,10 @@ from sqlalchemy.orm import relationship
 
 
 class Amenity(BaseModel, Base):
+    """ This is the class for Amenity Attributes """
     __tablename__ = "amenities"
     name = Column(String(128), nullable=False)
-    place_amenities = relationship('Place', secondary='place_amenity')
+    if getenv("HBNB_TYPE_STORAGE") == "db":
+        place_amenities = relationship('Place',
+                                       secondary='place_amenity',
+                                       back_populates='amenities')
