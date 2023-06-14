@@ -4,7 +4,6 @@ import uuid
 from datetime import datetime
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import Column, String, DateTime
-# import models -No such module
 
 
 Base = declarative_base()
@@ -17,7 +16,7 @@ class BaseModel:
     updated_at = Column(DateTime, nullable=False, default=datetime.utcnow())
 
     def __init__(self, *args, **kwargs):
-        """Instantiates a new model"""
+        """Instatntiates a new model"""
         if not kwargs:
             from models import storage
             self.id = str(uuid.uuid4())
