@@ -15,6 +15,7 @@ from models.amenity import Amenity
 class DBStorage:
     __engine = None
     __session = None
+
     classes = {
         'City': City,
         'State': State,
@@ -78,3 +79,16 @@ class DBStorage:
     def close(self):
         """close session"""
         self.__session.close()
+
+# Adding more functionality of the db storage to meet the criterias
+    def create_state(self):
+        state = State(name="California")
+        self.new(state)
+        self.save()
+
+    def create_city(self, state_id, name):
+        state = State()
+        state.id = state_id
+        city = City(name=name, state_id=state_id)
+        self.new(city)
+        self.save()
