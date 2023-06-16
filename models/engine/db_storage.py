@@ -15,14 +15,14 @@ from models.amenity import Amenity
 class DBStorage:
     __engine = None
     __session = None
-    # classes = {
-    #     'City': City,
-    #     'State': State,
-    #     'Place': Place,
-    #     'User': User,
-    #     'Review': Review,
-    #     'Amenity': Amenity,
-    # }
+    classes = {
+        'City': City,
+        'State': State,
+        'Place': Place,
+        'User': User,
+        'Review': Review,
+        'Amenity': Amenity,
+    }
 
     def __init__(self):
         """initialization of instance"""
