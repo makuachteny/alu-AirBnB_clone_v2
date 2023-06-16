@@ -1,8 +1,8 @@
 #!/usr/bin/python3
 """Database storage engine"""
+import os
 import sqlalchemy
 from sqlalchemy.orm import sessionmaker, scoped_session
-import os
 from models.base_model import Base
 from models.city import City
 from models.state import State
@@ -15,14 +15,14 @@ from models.amenity import Amenity
 class DBStorage:
     __engine = None
     __session = None
-    classes = {
-        'City': City,
-        'State': State,
-        'Place': Place,
-        'User': User,
-        'Review': Review,
-        'Amenity': Amenity,
-    }
+    # classes = {
+    #     'City': City,
+    #     'State': State,
+    #     'Place': Place,
+    #     'User': User,
+    #     'Review': Review,
+    #     'Amenity': Amenity,
+    # }
 
     def __init__(self):
         """initialization of instance"""
