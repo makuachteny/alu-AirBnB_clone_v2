@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 """Database storage engine"""
 import os
-import sqlalchemy
+from sqlalchemy import *
 from sqlalchemy.orm import sessionmaker, scoped_session
 from models.base_model import Base
 from models.city import City
