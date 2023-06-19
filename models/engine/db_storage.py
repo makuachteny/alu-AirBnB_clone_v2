@@ -81,12 +81,13 @@ class DBStorage:
         """close session"""
         self.__session.close()
 
-# Adding more functionality of the db storage to meet the criterias
+# Custom method that creates a new state object with a specified name
     def create_state(self):
         state = State(name="California")
         self.new(state)
         self.save()
 
+# Custom method that creates a new state object with a specified name
     def create_city(self, state_id, name):
         state = State()
         state.id = state_id
