@@ -1,7 +1,9 @@
 #!/usr/bin/python3
-# Fabric script that generates a .tgz archive from the web_static folder.
+# Fabric script that generates a .tgz archive.
 from fabric.api import local
 from datetime import datetime
+
+
 def do_pack():
     """Generates a .tgz archive from the web static folder"""
     local("mkdir -p versions")
@@ -16,4 +18,4 @@ def do_pack():
     if result.succeeded:
         return "versions/{}".format(archive_name)
     else:
-        return None   
+        return None
