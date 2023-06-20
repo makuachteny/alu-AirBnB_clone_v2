@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
-
 # Check if Nginx is already installed
+
 if ! command -v nginx &> /dev/null; then
     echo "Nginx is not installed. Installing now ..."
     # Update package lists
