@@ -1,7 +1,6 @@
 #!/usr/bin/env bash
 # Check if Nginx is already installed
 
-
     # Update package lists
     sudo apt update
     # Install Nginx service
