@@ -27,7 +27,8 @@ def do_deploy(archive_path):
 
     # Uncompress the archive to a folder
     filename = re.search(r'[^/]+$', archive_path).group(0)
-    folder = "/data/web_static/releases/{}".format(os.path.splitext(filename)[0])
+    folder = "/data/web_static/releases/{}".format(
+        os.path.splitext(filename)[0])
 
     # Create the folder if it doesn't exist
     if not exists(folder):
