@@ -1,10 +1,12 @@
 #!/usr/bin/python3
 # Fabric script for deploying an archive to web servers.abs
-
+from fabric.api import local, env, put, run
+from datetime import datetime
+import os
 
 
 env.user = 'ubuntu'
-env.hosts = [ '54.163.201.110', '54.227.84.117']
+env.hosts = ['54.163.201.110', '54.227.84.117']
 
 
 def do_deploy(archive_path):
@@ -20,17 +22,17 @@ def do_deploy(archive_path):
         filename = archive_path.split('/')[-1]
         name = filename.split('.')[0]
         run('mkdir -p /data/web_static/releases/{}/'.format(name))
-    
+
         # Extract the contents of the archive file to the specified folder on the web server.
         run("tar -xzf /tmp/{} -C /data/web_static/releases/{}/".format(filename, name))
 
-        #Executes a system command to remove a file located in the / tmp / directory.
+        # Executes a system command to remove a file located in the / tmp / directory.
         run("sudo rm /tmp/{}".format(filename))
 
-        #Executes a system command to recursively copy files and directories from one location to another.
+        # Executes a system command to recursively copy files and directories from one location to another.
         run("sudo cp -rf /data/web_static/releases/{}/web_static/* \
                 /data/web_static/releases/{}/".format(name, name))
-    
+
         run("sudo rm -rf /data/web_static/releases/{}/web_static".format(name))
         run("sudo rm -rf /data/web_static/current")
         run("sudo ln -s /data/web_static/releases/{}/ \
