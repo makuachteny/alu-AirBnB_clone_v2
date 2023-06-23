@@ -1,85 +1,33 @@
-#!/bin/bash
+#!/usr/bin/env bash
+# Bash script that checks and installs Nginx server
 
-# Check if Nginx is already installed
-if ! command -v nginx &> /dev/null; then
-    echo "Nginx is not installed. Installing now ..."
-    # Update package lists
-    sudo apt update
-    # Install Nginx service
-    sudo apt install -y nginx
-    # Start Nginx service
-    sudo service nginx start
-    echo "Nginx installed and started successfully"
-else
-    echo "Nginx is already installed"
-fi
+#Checks and Installs Nginx if not  installed
+sudo apt-get --fix-missing update
+sudo apt install nginx -y
 
-# Create the /data/ folder if it doesn't exist
-if [ ! -d "/data" ]; then
-    echo "/data/ folder does not exist. Creating now ..."
-    sudo mkdir /data
-    sudo chown -R ubuntu:ubuntu /data
-    echo "/data/ folder created and ownership set to ubuntu:ubuntu successfully."
-else
-    echo "/data/ folder already exists"
-fi
+# Create folder /data/web_static/shared if it doesn't exist
+sudo mkdir -p /data/web_static/shared/
+# Create folder /data/web_static/releases/test if it doesn't exist
+sudo mkdir -p /data/web_static/releases/test/
+# Create fake HTML file /data/web_static/releases/test/index.html
+sudo touch /data/web_static/releases/test/index.html
+# Write simple HTML code to fake HTML file
 
-# Create the /data/web_static/ folder if it doesn't exist
-if [ ! -d "/data/web_static" ]; then
-    echo "/data/web_static/ folder does not exist. Creating now..."
-    sudo mkdir /data/web_static
-    sudo chown -R ubuntu:ubuntu /data/web_static
-    echo "/data/web_static/ folder created and ownership set to ubuntu:ubuntu successfully."
-else
-    echo "/data/web_static/ folder already exists."
-fi
+echo "<html>
+  <head>
+  </head>
+  <body>
+    Holberton School
+  </body> " > /data/web_static/releases/test/index.html
 
-# Create the /data/web_static/releases/ folder if it doesn't exist
-if [ ! -d "/data/web_static/releases" ]; then
-    echo "/data/web_static/releases/ folder does not exist. Creating now..."
-    sudo mkdir /data/web_static/releases
-    sudo chown -R ubuntu:ubuntu /data/web_static/releases
-    echo "/data/web_static/releases/ folder created and ownership set to ubuntu:ubuntu successfully."
-else
-    echo "/data/web_static/releases/ folder already exists."
-fi
+# Create symbolic link /data/web_static/current linked to /data/web_static/releases/test   
 
-# Create the /data/web_static/shared/ folder if it doesn't exist
-if [ ! -d "/data/web_static/shared" ]; then
-    echo "/data/web_static/shared/ folder does not exist. Creating now..."
-    sudo mkdir /data/web_static/shared
-    sudo chown -R ubuntu:ubuntu /data/web_static/shared
-    echo "/data/web_static/shared/ folder created and ownership set to ubuntu:ubuntu successfully."
-else
-    echo "/data/web_static/shared/ folder already exists."
-fi
+sudo ln -sf /data/web_static/releases/test/ /data/web_static/current
 
-# Create the /data/web_static/releases/test/ folder if it doesn't exist
-if [ ! -d "/data/web_static/releases/test" ]; then
-    echo "/data/web_static/releases/test/ folder does not exist. Creating now..."
-    sudo mkdir /data/web_static/releases/test
-    sudo chown -R ubuntu:ubuntu /data/web_static/releases/test
-    echo "/data/web_static/releases/test/ folder created and ownership set to ubuntu:ubuntu successfully."
-else
-    echo "/data/web_static/releases/test/ folder already exists."
-fi
+sudo chown -R ubuntu:ubuntu /data
+sudo chown -R ubuntu:ubuntu /etc/nginx/sites-available/default
 
-# Create a fake HTML file /data/web_static/releases/test/index.html
-echo "Creating fake HTML file /data/web_static/releases/test/index.html ..."
-echo "<html><body>Holberton School</body></html>" | sudo tee /data/web_static/releases/test/index.html > /dev/null
-sudo chown -R ubuntu:ubuntu /data/web_static/releases/test/index.html
-echo "Fake HTML file created successfully."
-
-# Create or recreate the symbolic link /data/web_static/current
-if [ -L "/data/web_static/current" ]; then
-    echo "Symbolic link /data/web_static/current already exists. Deleting..."
-    sudo rm "/data/web_static/current"
-fi
-
-echo "Creating symbolic link /data/web_static/current ..."
-sudo ln -s "/data/web_static/releases/test" "/data/web_static/current"
-echo "Symbolic link created successfully."
-# Nginx configuration file
+# Write Nginx configuration to file
 echo "server {
     listen 80 default_server;
     listen [::]:80 default_server;
@@ -99,5 +47,5 @@ echo "server {
         internal;
     }
 }" > /etc/nginx/sites-enabled/default
-# Restart Nginx
-sudo service nginx start 
+# Restarts Nginx
+sudo service nginx start
