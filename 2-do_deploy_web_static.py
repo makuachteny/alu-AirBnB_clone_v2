@@ -6,7 +6,7 @@ import os
 
 
 env.user = 'ubuntu'
-env.hosts = ['54.163.201.110', '54.227.84.117']
+env.hosts = ['3.90.229.110', '3.88.90.214']
 
 
 def do_pack():
@@ -42,6 +42,14 @@ def do_deploy(archive_path):
         run("sudo ln -s /data/web_static/releases/{}/ \
             /data/web_static/current".format(
             name))
+        # Create 'hbnb_static' directory
+        if not isdir("/var/www/html/hbnb_static"):
+            run("sudo mkdir -p /var/www/html/hbnb_static")
+
+        # Sync 'hbnb_static' with 'current'
+        run("sudo cp -r /data/web_static/current/* /var/www/html/hbnb_static/")
+
+        print("New version deployed!")
         return True
     except Exception:
         return False
