@@ -11,7 +11,10 @@ def hello():
     """ Hello HBNB! """
     return "Hello HBNB!"
 
+def hbnb():
+    """ HBNB! """
+    return "HBNB"
 
 if __name__ == '__main__':
-    """ start the flask app """
+    """ starts the flask app """
     app.run(host='0.0.0.0', port=5000)
