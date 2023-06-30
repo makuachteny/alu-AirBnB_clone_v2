@@ -3,7 +3,7 @@
 from models.base_model import BaseModel, Base
 from sqlalchemy.orm import relationship
 from sqlalchemy import Column, String
-# from models.city import City
+from models.city import City
 from os import getenv
 
 storage = getenv("HBNB_TYPE_STORAGE")
