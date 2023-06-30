@@ -31,6 +31,7 @@ class Place(BaseModel, Base):
     latitude = Column(Float, nullable=True)
     longitude = Column(Float, nullable=True)
     amenity_ids = []
+    
     reviews = relationship("Review", backref='place', cascade="delete")
     if os.getenv("HBNB_TYPE_STORAGE") == "db":
         amenities = relationship("Amenity", secondary="place_amenity",
@@ -51,11 +52,3 @@ class Place(BaseModel, Base):
             """add amenity id"""
             if type(value) == type(Amenity):
                 self.amenity_ids.append(value.id)
-
-        # @amenities.setter
-        # def amenities(self, value=None):
-        #     """add amenity id or list of amenities"""
-        #     if isinstance(value, list):
-        #         self.amenity_ids.extend([amenity.id for amenity in value])
-        #     elif isinstance(value, Amenity):
-        #         self.amenity_ids.append(value.id)
